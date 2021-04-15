@@ -33,6 +33,7 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"github.com/michael2008/caddy/proxyprotocol"
 	"io"
 	"io/ioutil"
 	"log"
@@ -777,7 +778,13 @@ func startServers(serverList []Server, inst *Instance, restartFds map[string]res
 			}
 		}
 
-		inst.servers = append(inst.servers, ServerListener{server: s, listener: ln, packet: pc})
+		lnn := proxyprotocol.NewListener(ln, time.Second*10)
+		lnn.SetFilter([]proxyprotocol.Rule{{
+			Subnet:  &net.IPNet{IP: net.IPv4(0, 0, 0, 0), Mask: net.IPv4Mask(0, 0, 0, 0)},
+			Timeout: time.Second * 10}},
+		)
+
+		inst.servers = append(inst.servers, ServerListener{server: s, listener: lnn, packet: pc})
 	}
 
 	for _, s := range inst.servers {
