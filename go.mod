@@ -1,4 +1,4 @@
-module github.com/coredns/caddy
+module github.com/michael2008/caddy
 
 go 1.13
 

@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/coredns/caddy"
+	"github.com/michael2008/caddy"
 	"github.com/google/uuid"
 )
 
