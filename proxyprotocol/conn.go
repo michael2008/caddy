@@ -5,7 +5,6 @@ import (
 	"net"
 	"sync"
 	"time"
-	"fmt"
 )
 
 // Conn wraps a net.Conn using the PROXY protocol to determin LocalAddr() and RemoteAddr().
@@ -47,12 +46,10 @@ func (c *Conn) parse() {
 
 	ok, err := Detect(c.r)
 	if err != nil {
-		fmt.Println("------", err)
 		c.err = err
 		return
 	}
 	if !ok {
-		fmt.Println("not proxy proto")
 		c.err = nil
 		c.local = c.Conn.LocalAddr()
 		c.remote = c.Conn.RemoteAddr()
